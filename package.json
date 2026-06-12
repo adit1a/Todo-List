@@ -9,12 +9,21 @@
     "preview": "vite preview"
   },
   "devDependencies": {
+    "@types/node": "^25.9.3",
     "autoprefixer": "^10.5.0",
     "postcss": "^8.5.15",
     "tailwindcss": "^4.3.0",
     "typescript": "~6.0.2",
     "vite": "^8.0.12"
   },
+  
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    
+    "types": ["node"] 
+  },
+
   "dependencies": {
     "@tailwindcss/vite": "^4.3.0"
   }
