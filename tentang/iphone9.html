@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Tailwind CSS CDN - Hapus baris ini jika Anda sudah memiliki instalasi Tailwind CSS lokal -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="src/iphone.css"> <!-- Tetap pertahankan link CSS Anda yang asli -->
+    <title>Daftar Kegiatan Harian</title> <!-- Judul lebih deskriptif -->
+</head>
+<body class="bg-slate-50 font-sans antialiased text-slate-800">
+    <header class="bg-blue-700 text-white p-4 shadow-md">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold">Daftar Kegiatan</h1>
+            <!-- Anda bisa menambahkan logo atau navigasi di sini -->
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-6 lg:p-8">
+       <!-- Bagian Form Pencarian -->
+       <section class="mb-8">
+            <div class="max-w-md mx-auto">
+                <label for="search-input" class="mb-2 text-sm font-medium text-slate-700 sr-only">Cari Kegiatan</label>
+                <div class="relative shadow-sm rounded-xl">
+                    <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                        <svg class="w-5 h-5 text-slate-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                        </svg>
+                    </div>
+
+                    <input
+                        type="search"
+                        id="search-input"
+                        class="block w-full p-3 ps-10 text-base text-slate-900 border border-slate-300 rounded-xl bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none transition-all duration-150 pr-24"
+                        placeholder="Cari kegiatan atau tugas..."
+                        required
+                    >
+
+                    <button
+                        type="button"
+                        id="search-button"
+                        class="text-white absolute end-2.5 bottom-2 top-2 bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-1.5 flex items-center justify-center transition-colors"
+                    >
+                        Cari
+                    </button>
+                </div>
+                <p id="search-status" class="mt-2 text-sm font-semibold text-center text-slate-600 hidden"></p>
+            </div>
+       </section>
+
+       <!-- Bagian Tabel To-Do -->
+       <section class="bg-white p-6 rounded-lg shadow-md overflow-x-auto">
+            <h2 class="text-xl font-bold text-slate-800 mb-4">Daftar Kegiatan Harian</h2>
+            <table class="min-w-full divide-y divide-slate-200">
+                <thead class="bg-slate-100">
+                    <tr>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Waktu</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Kegiatan</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Tanggal</th>
+                    </tr>
+                </thead>
+                <tbody id="todo-body" class="bg-white divide-y divide-slate-200">
+                    <tr class="hover:bg-slate-50">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-900">04.30 am</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-700 nama-kegiatan">bangun pagi</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500">2026-10-10</td>
+                    </tr>
+                    <tr class="hover:bg-slate-50">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-900">07.00 am</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-700 nama-kegiatan">sarapan / kuliah</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500">2026-10-10</td>
+                    </tr>
+                     <tr class="hover:bg-slate-50">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-900">09.00 am</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-700 nama-kegiatan">Belajar Pemrograman</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500">2026-10-10</td>
+                    </tr>
+                    <tr class="hover:bg-slate-50">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-900">12.00 pm</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-700 nama-kegiatan">Makan Siang</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500">2026-10-10</td>
+                    </tr>
+                    <tr class="hover:bg-slate-50">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-900">03.00 pm</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-700 nama-kegiatan">Olahraga</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500">2026-10-10</td>
+                    </tr>
+                    <tr class="hover:bg-slate-50">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-900">07.00 pm</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-700 nama-kegiatan">Makan Malam & Santai</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500">2026-10-10</td>
+                    </tr>
+                    <!-- Kegiatan "membaca" yang baru ditambahkan -->
+                    <tr class="hover:bg-slate-50">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-900">08.00 pm</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-700 nama-kegiatan">membaca</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500">2026-06-13</td>
+                    </tr>
+                </tbody>
+            </table>
+       </section>
+    </main>
+
+    <footer class="bg-slate-800 text-white p-4 mt-8">
+        <div class="container mx-auto text-center text-sm">
+            &copy; 2026 Daftar Kegiatan. All rights reserved.
+        </div>
+    </footer>
+    <script type="module" src="/src/script.js"></script>
+</body>
+</html>
