@@ -1,163 +1,303 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id" class="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="src/style.css">
-  <title>to do list</title>
+  <meta name="description" content="To do list mingguan Aditiya">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons CDN untuk Ikon Modern -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <title>To Do List - Aditiya</title>
 </head>
-<body>
-    <main class="overflow-x-auto w-full h-full p-4">
-      <h1 class="text-center">To Do list</h1>
-      <h3 >Selamat datang adit</h3>
-      <div class="mt-4 rounded-lg bg-[blue] w-full h-10 flex justify-center items-center" >
-        <h3 class="text-white" >Daftar Kegiatan</h3>
-      </div>
-      <div class="mb-4 flex justify-end pt-5 pr-4">
-        <button class="button-fixed bg-[blue] hover:bg-[#0056b3] text-white font-bold py-2 px-4 rounded cursor-pointer" id="button1">Tambah Kegiatan</button>
-      </div>
-      <!-- <div class="mb-4 flex justify-end pt-5 pr-4">
-        <button class="button-fixed bg-[blue] hover:bg-[#0056b3] text-white font-bold py-2 px-4 rounded  "><a href="/tentang/">Tentang Saya</a></button>
-      </div> -->
-      <!-- <div class="mb-4 flex justify-end pt-5 pr-4">
-        <button class="button-fixed bg-[blue] hover:bg-[#0056b3] text-white font-bold py-2 px-4 rounded  "><a href="https://nerdcave.com/tailwind-cheat-sheet">tempat tailwind</a></button>
-      </div> -->
-      <!-- <a href="/tentang/iphone9.html" class="cursor-pointer text-blue-500 hover:underline">
-          Buka Halaman iPhone 9
-      </a> -->
-      <div class=" mt-4 w-full overflow-x-auto border border-slate-300 rounded-xl shadow-sm">
-        <table class="w-full h-min-[800px] border-collapse border border-slate-600 table-fixed">
-          <thead>
-            <tr class=" text-slate-900 bg-slate-100">
-              <th class="bg-slate-300 p-3 text-small  border border-slate-600">waktu</th>
-              <th class="bg-slate-300 p-3 text-small  border border-slate-600">nama kegiatan</th>
-              <th class=" bg-slate-300 p-3 text-small  border border-slate-600">tanggal</th>
-              <th class="p-3 text-small  border border-slate-400 text-[#4D12FF]">Senin</th>
-              <th class="p-3 text-small  border border-slate-400 text-[#4D12FF]">Selasa</th>
-              <th class="p-3 text-small  border border-slate-400 text-[#4D12FF]">Rabu</th>
-              <th class="p-3 text-small  border border-slate-400 text-[#4D12FF]">Kamis</th>
-              <th class="p-3 text-small  border border-slate-400 text-[#4D12FF] ">Jumat</th>
-              <th class="p-3 text-small  border border-slate-400 text-[#4D12FF]">Sabtu</th>
-              <th class="p-3 text-small  border border-slate-400 text-[#4D12FF]">Minggu</th>
-              </tr>
-              </thead>
-              <tbody>
-                  <tr class="text-slate-900">
-                    <td class="bg-[#00BFFF] border border-slate-500 text-center">04.30 am</td>
-                    <td class="bg-[#00BFFF] p-3 border border-slate-500 text-center">bangun pagi</td>
-                    <td class="bg-[#00BFFF] p-3 border border-slate-500 text-center">2026-10-10</td>
-                    <td class="  p-2 border border-slate-500 text-center"><input class="border border-[#0A4174] rounded accent-[#DAA520]" type="checkbox" id="task1"></td>
-                    <td class="p-2 border border-slate-500 text-center"><input type="checkbox" id="task2"></td>
-                    <td class="p-2 border border-slate-500 text-center"><input type="checkbox" id="task3"></td>
-                    <td class="p-2 border border-slate-500 text-center"><input type="checkbox" id="task4"></td>
-                    <td class="p-2 border border-slate-500 text-center"><input type="checkbox" id="task5"></td>
-                    <td class="p-2 border border-slate-500 text-center"><input type="checkbox" id="task6"></td>
-                    <td class="p-2 border border-slate-500 text-center"><input type="checkbox" id="task7"></td>
-                  </tr>
-                  <tr class="text-slate-900">
-                    <td class="bg-[#00BFFF] border border-slate-500 text-center p-3 text-sm">07.00 am</td>
-                    <td class="bg-[#00BFFF] p-3 border border-slate-500 text-center text-sm">sarapan</td>
-                    <td class="bg-[#00BFFF] p-3 border border-slate-500 text-center text-sm">2026-10-10</td>
-                    <td class="p-2 border border-slate-500 text-center"><input type="checkbox" id="task7"></td>
-                    <td class="p-2 border border-slate-500 text-center"><input type="checkbox" id="task7 "></td>
-                    <td class="p-2 border border-slate-500 text-center"><input type="checkbox" id="task7"></td>
-                    <td class="p-2 border border-slate-500 text-center"><input type="checkbox" id="task7"></td>
-                    <td class="p-2 border border-slate-500 text-center"><input type="checkbox" id="task7"></td>
-                    <td class="p-2 border border-slate-500 text-center"><input type="checkbox" id="task7"></td>
-                    <td class="p-2 border border-slate-500 text-center"><input type="checkbox" id="task7"></td>
-                  </tr>
-                  <tr class="text-slate-900">
-                    <td class="bg-[#00BFFF] p-3 border border-slate-500 text-center text-sm">08.00 am</td>
-                    <td class="bg-[#00BFFF] p-3 border border-slate-500 text-center text-sm">workout</td>
-                    <td class="bg-[#00BFFF] p-3 border border-slate-500 text-center text-sm">2026-10-10</td>
-                    <td class="p-2 border border-slate-500 text-center"><input type="checkbox" id="task8"></td>
-                    <td class="p-2 border border-slate-500 text-center"><input type="checkbox" id="task9"></td>
-                    <td class="p-2 border border-slate-500 text-center"><input type="checkbox" id="task10"></td>
-                    <td class="p-2 border border-slate-500 text-center"><input type="checkbox" id="task11"></td>
-                    <td class="p-2 border border-slate-500 text-center"><input type="checkbox" id="task12"></td>
-                    <td class="p-2 border border-slate-500 text-center"><input type="checkbox" id="task13"></td>
-                    <td class="p-2 border border-slate-500 text-center"><input type="checkbox" id="task14"></td>
-                  </tr>
-                  <tr class="text-slate-900">
-                    <td class="bg-[#00BFFF] p-3 border border-slate-500 text-center text-sm">12.00 pm</td>
-                    <td class="bg-[#00BFFF] p-3 border border-slate-500 text-center text-sm">makan siang</td>
-                    <td class="bg-[#00BFFF] p-3 border border-slate-500 text-center text-sm">2026-10-10</td>
-                    <td class="p-2 border border-slate-500 text-center"><input type="checkbox" id="task15"></td>
-                    <td class="p-2 border border-slate-500 text-center"><input type="checkbox" id="task16"></td>
-                    <td class="p-2 border border-slate-500 text-center"><input type="checkbox" id="task17"></td>
-                    <td class="p-2 border border-slate-500 text-center"><input type="checkbox" id="task18"></td>
-                    <td class="p-2 border border-slate-500 text-center"><input type="checkbox" id="task19"></td>
-                    <td class="p-2 border border-slate-500 text-center"><input type="checkbox" id="task20"></td>
-                    <td class="p-2 border border-slate-500 text-center"><input type="checkbox" id="task21"></td>
-                  </tr>
-                  <tr class="">
-                    <td class="bg-[#00BFFF] p-3 border border-slate-500 text-center text-sm">13.00 pm</td>
-                    <td class="bg-[#00BFFF] p-3 border border-slate-500 text-center text-sm">scrolling</td>
-                    <td class="bg-[#00BFFF] p-3 border border-slate-500 text-center text-sm">2026-06-26</td>
-                    <td class="p-2 border border-slate-500 text-center"><input type="checkbox" id="task22"></td>
-                    <td class="p-2 border border-slate-500 text-center"><input type="checkbox" id="task23"></td>
-                    <td class="p-2 border border-slate-500 text-center"><input type="checkbox" id="task24"></td>
-                    <td class="p-2 border border-slate-500 text-center"><input type="checkbox" id="task25"></td>
-                    <td class="p-2 border border-slate-500 text-center"><input type="checkbox" id="task26"></td>
-                    <td class="p-2 border border-slate-500 text-center"><input type="checkbox" id="task27"></td>
-                    <td class="p-2 border border-slate-500 text-center"><input type="checkbox" id="task28"></td>
-                  </tr>
-                  <tr class="text-slate-900">
-                    <td class="bg-[#00BFFF] p-3 border border-slate-500 text-center text-sm">14.00 pm</td>
-                    <td class="bg-[#00BFFF] p-3 border border-slate-500 text-center text-sm">tidur</td>
-                    <td class="bg-[#00BFFF] p-3 border border-slate-500 text-center text-sm">2026-06-26</td>
-                    <td class="p-2 border border-slate-500 text-center"><input type="checkbox" id="task29"></td>
-                    <td class="p-2 border border-slate-500 text-center"><input type="checkbox" id="task29"></td>
-                    <td class="p-2 border border-slate-500 text-center"><input type="checkbox" id="task29"></td>
-                    <td class="p-2 border border-slate-500 text-center"><input type="checkbox" id="task29"></td>
-                    <td class="p-2 border border-slate-500 text-center"><input type="checkbox" id="task29"></td>
-                    <td class="p-2 border border-slate-500 text-center"><input type="checkbox" id="task29"></td>
-                    <td class="p-2 border border-slate-500 text-center"><input type="checkbox" id="task29"></td>
+<body class="bg-slate-950 text-slate-100 font-sans antialiased min-h-screen flex flex-col justify-between p-4 md:p-8">
 
-                  </tr>
-                  <tr class="">
-                    <td class="bg-[#00BFFF] p-3 border border-slate-500 text-center text-sm">16.00 pm</td>
-                    <td class="bg-[#00BFFF] p-3 border border-slate-500 text-center text-sm">membaca</td>
-                    <td class="bg-[#00BFFF] p-3 border border-slate-500 text-center text-sm">2026-06-26</td>
-                    <td class="p-2 border border-slate-500 text-center"><input type="checkbox" id="task30"></td>
-                    <td class="p-2 border border-slate-500 text-center"><input type="checkbox" id="task31"></td>
-                    <td class="p-2 border border-slate-500 text-center"><input type="checkbox" id="task32"></td>
-                    <td class="p-2 border border-slate-500 text-center"><input type="checkbox" id="task33"></td>
-                    <td class="p-2 border border-slate-500 text-center"><input type="checkbox" id="task34"></td>
-                    <td class="p-2 border border-slate-500 text-center"><input type="checkbox" id="task35"></td>
-                    <td class="p-2 border border-slate-500 text-center"><input type="checkbox" id="task36"></td>
-                  </tr>
-                  <tr class="text-slate-900">
-                    <td class="bg-[#00BFFF] p-3 border border-slate-500 text-center text-sm">20.00 pm</td>
-                    <td class="bg-[#00BFFF] p-3 border border-slate-500 text-center text-sm">ngoding</td>
-                    <td class="bg-[#00BFFF] p-3 border border-slate-500 text-center text-sm">2026-06-26</td>
-                    <td class="p-2 border border-slate-500 text-center"><input type="checkbox" id="task37"></td>
-                    <td class="p-2 border border-slate-500 text-center"><input type="checkbox" id="task38"></td>
-                    <td class="p-2 border border-slate-500 text-center"><input type="checkbox" id="task39"></td>
-                    <td class="p-2 border border-slate-500 text-center"><input type="checkbox" id="task40"></td>
-                    <td class="p-2 border border-slate-500 text-center"><input type="checkbox" id="task41"></td>
-                    <td class="p-2 border border-slate-500 text-center"><input type="checkbox" id="task42"></td>
-                    <td class="p-2 border border-slate-500 text-center"><input type="checkbox" id="task43"></td>
-                  </tr>
-                  <tr class="text-slate-900">
-                    <td class="bg-[#00BFFF] p-3 border border-slate-500 text-center text-sm">22.00 pm</td>
-                    <td class="bg-[#00BFFF] p-3 border border-slate-500 text-center text-sm">scroll sampai tidur</td>
-                    <td class="bg-[#00BFFF] p-3 border border-slate-500 text-center text-sm">2026-06-26</td>
-                    <td class="p-2 border border-slate-500 text-center"><input type="checkbox" id="task43"></td>
-                    <td class="p-2 border border-slate-500 text-center"><input type="checkbox" id="task44"></td>
-                    <td class="p-2 border border-slate-500 text-center"><input type="checkbox" id="task45"></td>
-                    <td class="p-2 border border-slate-500 text-center"><input type="checkbox" id="task46"></td>
-                    <td class="p-2 border border-slate-500 text-center"><input type="checkbox" id="task47"></td>
-                    <td class="p-2 border border-slate-500 text-center"><input type="checkbox" id="task48"></td>
-                    <td class="p-2 border border-slate-500 text-center"><input type="checkbox" id="task49"></td>
-                  </tr>
-                </tbody> 
+  <!-- Main Container -->
+  <main class="max-w-7xl mx-auto w-full">
+    
+    <!-- Header Section -->
+    <header class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-slate-900/80 border border-slate-800 p-6 rounded-3xl shadow-xl backdrop-blur-md mb-6">
+      <div>
+        <h1 class="text-3xl font-extrabold text-cyan-400 tracking-tight flex items-center gap-2">
+          <i data-lucide="check-square" class="w-8 h-8 text-cyan-400"></i>
+          Weekly To-Do List
+        </h1>
+        <p class="text-slate-400 text-sm mt-1">Selamat datang kembali, <span class="text-slate-200 font-semibold">Aditiya</span> 👋</p>
+      </div>
+      
+      <button id="openModalBtn" class="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold px-5 py-2.5 rounded-2xl shadow-lg hover:shadow-cyan-500/30 transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer">
+        <i data-lucide="plus-circle" class="w-5 h-5"></i>
+        <span>Tambah Kegiatan</span>
+      </button>
+    </header>
+
+    <!-- Table Container / Card -->
+    <div class="bg-slate-900/60 border border-slate-800 rounded-3xl shadow-2xl p-4 md:p-6 backdrop-blur-md">
+      <div class="flex items-center justify-between mb-4 px-2">
+        <h2 class="text-lg font-bold text-slate-200 flex items-center gap-2">
+          <i data-lucide="calendar" class="w-5 h-5 text-cyan-400"></i>
+          Jadwal Mingguan
+        </h2>
+        <span class="text-xs text-slate-400 bg-slate-800/80 px-3 py-1 rounded-full border border-slate-700">7 Hari Aktif</span>
+      </div>
+
+      <!-- Responsive Table -->
+      <div class="overflow-x-auto rounded-2xl border border-slate-800">
+        <table class="w-full text-left border-collapse min-w-[800px]">
+          <thead>
+            <tr class="bg-slate-950/80 text-cyan-400 text-xs font-bold uppercase tracking-wider border-b border-slate-800">
+              <th class="p-4 w-28 text-center">Waktu</th>
+              <th class="p-4">Kegiatan</th>
+              <th class="p-4 w-32">Tanggal</th>
+              <th class="p-3 text-center w-12">Sen</th>
+              <th class="p-3 text-center w-12">Sel</th>
+              <th class="p-3 text-center w-12">Rab</th>
+              <th class="p-3 text-center w-12">Kam</th>
+              <th class="p-3 text-center w-12">Jum</th>
+              <th class="p-3 text-center w-12">Sab</th>
+              <th class="p-3 text-center w-12">Min</th>
+              <th class="p-3 text-center w-12">Aksi</th>
+            </tr>
           </thead>
-          
+          <tbody id="todo-body" class="divide-y divide-slate-800/60 text-sm text-slate-300">
+            <!-- Data digenerate otomatis oleh JS -->
+          </tbody>
         </table>
       </div>
-    </main>
-    <footer class=" rounded-lg bg-slate-400 w-12/13  mx-auto p-4 flex justify-center items-center">copyright &copy; 2026 ADITIYA. All rights reserved.</footer>
-    <script src="src/script.js"></script>
+    </div>
+
+  </main>
+
+  <!-- Modal Interactive untuk Tambah Kegiatan -->
+  <div id="todoModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
+    <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 w-full max-w-md shadow-2xl transform scale-95 transition-transform duration-300" id="modalCard">
+      <div class="flex justify-between items-center mb-5">
+        <h3 class="text-xl font-bold text-cyan-400 flex items-center gap-2">
+          <i data-lucide="list-plus" class="w-6 h-6"></i>
+          Tambah Kegiatan Baru
+        </h3>
+        <button id="closeModalBtn" class="text-slate-400 hover:text-white transition-colors">
+          <i data-lucide="x" class="w-6 h-6"></i>
+        </button>
+      </div>
+
+      <form id="addTodoForm" class="space-y-4">
+        <div>
+          <label class="block text-xs font-medium text-slate-400 mb-1">Nama Kegiatan</label>
+          <input type="text" id="inputName" required placeholder="Contoh: Belajar Tailwind CSS" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-slate-100 focus:outline-none focus:border-cyan-500 transition-colors">
+        </div>
+        
+        <div class="grid grid-cols-2 gap-3">
+          <!-- Input Jam dengan Dropdown Scroll -->
+          <div>
+            <label class="block text-xs font-medium text-slate-400 mb-1">Jam Waktu</label>
+            <div class="flex gap-2">
+              <select id="selectHour" required class="w-2/3 bg-slate-950 border border-slate-800 rounded-xl p-3 text-slate-100 focus:outline-none focus:border-cyan-500 transition-colors cursor-pointer appearance-none">
+                <!-- Diisi via JavaScript -->
+              </select>
+              <select id="selectAmpm" required class="w-1/3 bg-slate-950 border border-slate-800 rounded-xl p-3 text-cyan-400 font-semibold focus:outline-none focus:border-cyan-500 transition-colors cursor-pointer appearance-none text-center">
+                <option value="AM" class="bg-slate-900 text-cyan-400">AM</option>
+                <option value="PM" class="bg-slate-900 text-cyan-400">PM</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-medium text-slate-400 mb-1">Tanggal</label>
+            <input type="date" id="inputDate" required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-slate-100 focus:outline-none focus:border-cyan-500 transition-colors">
+          </div>
+        </div>
+
+        <div class="pt-3 flex justify-end gap-3">
+          <button type="button" id="cancelModalBtn" class="px-5 py-2.5 rounded-xl border border-slate-700 text-slate-300 font-medium hover:bg-slate-800 transition-colors">
+            Batal
+          </button>
+          <button type="submit" class="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold px-5 py-2.5 rounded-xl transition-all shadow-lg hover:shadow-cyan-500/20">
+            Simpan Kegiatan
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="mt-8 text-center text-xs text-slate-500 py-4">
+    Copyright &copy; 2026 <span class="text-cyan-400 font-semibold">ADITIYA</span>. All rights reserved.
+  </footer>
+
+  <!-- Script logic UX & Interaktivitas -->
+  <script>
+    const days = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'];
+
+    // Sample Data
+    let activities = [
+      { id: 1, time: '08.00 PM', name: 'Ngoding Portfolio', date: '2026-06-26' },
+      { id: 2, time: '03.00 AM', name: 'Bangun Pagi & Sholat', date: '2026-10-10' },
+      { id: 3, time: '08.00 AM', name: 'Workout Tipis-Tipis', date: '2026-10-10' }
+    ];
+
+    const tbody = document.getElementById('todo-body');
+    const modal = document.getElementById('todoModal');
+    const modalCard = document.getElementById('modalCard');
+    const openModalBtn = document.getElementById('openModalBtn');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    const cancelModalBtn = document.getElementById('cancelModalBtn');
+    const addTodoForm = document.getElementById('addTodoForm');
+
+    // Helper 1: Konversi Tanggal "YYYY-MM-DD" ke Timestamp
+    function dateToTimestamp(dateStr) {
+      if (!dateStr) return 0;
+      return new Date(dateStr).getTime();
+    }
+
+    // Helper 2: Konversi Waktu ("08.30 PM") ke Total Menit (0 - 1439)
+    function timeToMinutes(timeStr) {
+      if (!timeStr) return 0;
+      const parts = timeStr.trim().split(' ');
+      if (parts.length < 2) return 0;
+
+      const [hoursStr, minsStr] = parts[0].split('.');
+      let hours = parseInt(hoursStr, 10);
+      const minutes = parseInt(minsStr, 10);
+      const ampm = parts[1].toUpperCase();
+
+      if (ampm === 'PM' && hours < 12) hours += 12;
+      if (ampm === 'AM' && hours === 12) hours = 0;
+
+      return hours * 60 + minutes;
+    }
+
+    // Populate Pilihan Dropdown Jam (01.00 - 12.30)
+    function populateHourSelect() {
+      const selectHour = document.getElementById('selectHour');
+      selectHour.innerHTML = '';
+      
+      for (let h = 1; h <= 12; h++) {
+        const hourStr = h < 10 ? `0${h}` : `${h}`;
+        ['00', '30'].forEach(min => {
+          const timeValue = `${hourStr}.${min}`;
+          const option = document.createElement('option');
+          option.value = timeValue;
+          option.textContent = timeValue;
+          option.className = 'bg-slate-900 text-slate-100';
+          selectHour.appendChild(option);
+        });
+      }
+    }
+
+    // Render Tabel dengan Pengurutan (Tanggal Lama ke Baru, Lalu Jam Pagi ke Malam)
+    function renderTable() {
+      tbody.innerHTML = '';
+
+      if (activities.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="11" class="text-center py-8 text-slate-500">
+              Belum ada kegiatan. Klik "Tambah Kegiatan" untuk memulai!
+            </td>
+          </tr>`;
+        return;
+      }
+
+      // LOGIKA URUTAN:
+      // 1. Tanggal lama di atas, tanggal terbaru otomatis di posisi paling bawah
+      // 2. Jika tanggal sama, jam pagi di atas dan jam malam di bawah
+      activities.sort((a, b) => {
+        const dateDiff = dateToTimestamp(a.date) - dateToTimestamp(b.date);
+        if (dateDiff !== 0) return dateDiff;
+        return timeToMinutes(a.time) - timeToMinutes(b.time);
+      });
+
+      activities.forEach((act, index) => {
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-slate-800/40 transition-colors group';
+
+        tr.innerHTML = `
+          <td class="p-3 text-center font-mono text-xs text-cyan-400/90 bg-slate-950/30">${act.time}</td>
+          <td class="p-3 font-medium text-slate-200 task-name-cell">${act.name}</td>
+          <td class="p-3 text-xs text-slate-400">${act.date}</td>
+          ${days.map(() => `
+            <td class="p-3 text-center">
+              <input type="checkbox" 
+                class="w-4 h-4 rounded border-slate-700 bg-slate-950 text-cyan-500 focus:ring-cyan-400/20 focus:ring-offset-0 cursor-pointer accent-cyan-500"
+                onchange="toggleTask(this)">
+            </td>
+          `).join('')}
+          <td class="p-3 text-center">
+            <button onclick="deleteActivity(${index})" class="text-slate-500 hover:text-red-400 transition-colors p-1" title="Hapus">
+              <i data-lucide="trash-2" class="w-4 h-4"></i>
+            </button>
+          </td>
+        `;
+
+        tbody.appendChild(tr);
+      });
+
+      lucide.createIcons();
+    }
+
+    // Coret Teks Otomatis Jika Checklist Dicentang
+    function toggleTask(checkbox) {
+      const row = checkbox.closest('tr');
+      const taskCell = row.querySelector('.task-name-cell');
+      const allCheckboxes = row.querySelectorAll('input[type="checkbox"]');
+      
+      const isAnyChecked = Array.from(allCheckboxes).some(cb => cb.checked);
+
+      if (isAnyChecked) {
+        taskCell.classList.add('line-through', 'text-slate-500');
+      } else {
+        taskCell.classList.remove('line-through', 'text-slate-500');
+      }
+    }
+
+    // Kontrol Modal
+    function openModal() {
+      modal.classList.remove('hidden');
+      setTimeout(() => {
+        modal.classList.remove('opacity-0');
+        modalCard.classList.remove('scale-95');
+      }, 10);
+    }
+
+    function closeModal() {
+      modal.classList.add('opacity-0');
+      modalCard.classList.add('scale-95');
+      setTimeout(() => {
+        modal.classList.add('hidden');
+        addTodoForm.reset();
+      }, 300);
+    }
+
+    // Hapus Kegiatan
+    function deleteActivity(index) {
+      activities.splice(index, 1);
+      renderTable();
+    }
+
+    // Event Listeners
+    openModalBtn.addEventListener('click', openModal);
+    closeModalBtn.addEventListener('click', closeModal);
+    cancelModalBtn.addEventListener('click', closeModal);
+
+    addTodoForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('inputName').value;
+      const hour = document.getElementById('selectHour').value;
+      const ampm = document.getElementById('selectAmpm').value;
+      const date = document.getElementById('inputDate').value;
+
+      const formattedTime = `${hour} ${ampm}`;
+
+      activities.push({ id: Date.now(), name, time: formattedTime, date });
+      renderTable();
+      closeModal();
+    });
+
+    // Inisialisasi Aplikasi
+    populateHourSelect();
+    document.getElementById('inputDate').value = new Date().toISOString().slice(0, 10);
+    renderTable();
+  </script>
 </body>
 </html>

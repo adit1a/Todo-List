@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Daftar kegiatan harian dengan fitur pencarian">
     <!-- Tailwind CSS CDN - Hapus baris ini jika Anda sudah memiliki instalasi Tailwind CSS lokal -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="src/iphone.css"> <!-- Tetap pertahankan link CSS Anda yang asli -->
-    <title>Daftar Kegiatan Harian</title> <!-- Judul lebih deskriptif -->
+    <title>Daftar Kegiatan Harian</title>
 </head>
 <body class="bg-slate-50 font-sans antialiased text-slate-800">
     <header class="bg-blue-700 text-white p-4 shadow-md">
@@ -33,7 +34,6 @@
                         id="search-input"
                         class="block w-full p-3 ps-10 text-base text-slate-900 border border-slate-300 rounded-xl bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none transition-all duration-150 pr-24"
                         placeholder="Cari kegiatan atau tugas..."
-                        required
                     >
 
                     <button
@@ -44,7 +44,7 @@
                         Cari
                     </button>
                 </div>
-                <p id="search-status" class="mt-2 text-sm font-semibold text-center text-slate-600 hidden"></p>
+                <p id="search-status" class="mt-2 text-sm font-semibold text-center text-slate-600 hidden" aria-live="polite"></p>
             </div>
        </section>
 
@@ -94,10 +94,11 @@
                     <tr class="hover:bg-slate-50">
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-900">08.00 pm</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-700 nama-kegiatan">membaca</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500">2026-06-13</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500">2026-10-10</td>
                     </tr>
                 </tbody>
             </table>
+            <p id="empty-state" class="hidden text-center text-slate-400 text-sm py-6">Tidak ada kegiatan yang cocok dengan pencarian.</p>
        </section>
     </main>
 
@@ -106,6 +107,48 @@
             &copy; 2026 Daftar Kegiatan. All rights reserved.
         </div>
     </footer>
+
+    <script>
+        // Filter tabel kegiatan berdasarkan kata kunci pencarian.
+        // Catatan: kalau kamu sudah punya logic pencarian di src/script.js,
+        // hapus blok <script> ini supaya tidak bentrok (double event listener).
+        (function () {
+            const searchInput = document.getElementById('search-input');
+            const searchButton = document.getElementById('search-button');
+            const searchStatus = document.getElementById('search-status');
+            const tableBody = document.getElementById('todo-body');
+            const emptyState = document.getElementById('empty-state');
+            const rows = Array.from(tableBody.querySelectorAll('tr'));
+
+            function runSearch() {
+                const keyword = searchInput.value.trim().toLowerCase();
+                let visibleCount = 0;
+
+                rows.forEach((row) => {
+                    const activityCell = row.querySelector('.nama-kegiatan');
+                    const activityText = activityCell ? activityCell.textContent.toLowerCase() : '';
+                    const isMatch = keyword === '' || activityText.includes(keyword);
+                    row.classList.toggle('hidden', !isMatch);
+                    if (isMatch) visibleCount++;
+                });
+
+                emptyState.classList.toggle('hidden', visibleCount !== 0);
+
+                if (keyword === '') {
+                    searchStatus.classList.add('hidden');
+                } else {
+                    searchStatus.textContent = `${visibleCount} kegiatan ditemukan untuk "${keyword}"`;
+                    searchStatus.classList.remove('hidden');
+                }
+            }
+
+            searchButton.addEventListener('click', runSearch);
+            searchInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') runSearch();
+            });
+            searchInput.addEventListener('input', runSearch);
+        })();
+    </script>
     <script type="module" src="/src/script.js"></script>
 </body>
 </html>
