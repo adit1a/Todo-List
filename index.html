@@ -4,69 +4,179 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="To do list mingguan Aditiya">
+  
+  <!-- Google Font (Plus Jakarta Sans) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Google Font (Playwrite VN) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playwrite+VN:wght@100..400&display=swap" rel="stylesheet">
+
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Lucide Icons CDN untuk Ikon Modern -->
+  
+  <!-- Konfigurasi Tailwind Font -->
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            playwrite: ['"Playwrite VN"', 'cursive'],
+          },
+        },
+      },
+    }
+  </script>
+
+  <!-- Lucide Icons CDN -->
   <script src="https://unpkg.com/lucide@latest"></script>
-  <title>To Do List - Aditiya</title>
+  <title>To Do List & Dashboard - Aditiya</title>
 </head>
-<body class="bg-slate-950 text-slate-100 font-sans antialiased min-h-screen flex flex-col justify-between p-4 md:p-8">
+<body class="bg-slate-950 text-slate-100 font-sans antialiased min-h-screen flex">
 
-  <!-- Main Container -->
-  <main class="max-w-7xl mx-auto w-full">
-    
-    <!-- Header Section -->
-    <header class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-slate-900/80 border border-slate-800 p-6 rounded-3xl shadow-xl backdrop-blur-md mb-6">
-      <div>
-        <h1 class="text-3xl font-extrabold text-cyan-400 tracking-tight flex items-center gap-2">
-          <i data-lucide="check-square" class="w-8 h-8 text-cyan-400"></i>
-          Weekly To-Do List
-        </h1>
-        <p class="text-slate-400 text-sm mt-1">Selamat datang kembali, <span class="text-slate-200 font-semibold">Aditiya</span> 👋</p>
-      </div>
-      
-      <button id="openModalBtn" class="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold px-5 py-2.5 rounded-2xl shadow-lg hover:shadow-cyan-500/30 transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer">
-        <i data-lucide="plus-circle" class="w-5 h-5"></i>
-        <span>Tambah Kegiatan</span>
-      </button>
-    </header>
-
-    <!-- Table Container / Card -->
-    <div class="bg-slate-900/60 border border-slate-800 rounded-3xl shadow-2xl p-4 md:p-6 backdrop-blur-md">
-      <div class="flex items-center justify-between mb-4 px-2">
-        <h2 class="text-lg font-bold text-slate-200 flex items-center gap-2">
-          <i data-lucide="calendar" class="w-5 h-5 text-cyan-400"></i>
-          Jadwal Mingguan
-        </h2>
-        <span class="text-xs text-slate-400 bg-slate-800/80 px-3 py-1 rounded-full border border-slate-700">7 Hari Aktif</span>
+  <!-- SIDEBAR / NAVBAR KIRI -->
+  <aside class="w-64 bg-slate-900 border-r border-slate-800 flex flex-col justify-between p-5 min-h-screen fixed left-0 top-0 z-40">
+    <div>
+      <!-- Header Logo Aplikasi -->
+      <div class="flex items-center gap-3 px-2 py-4 mb-6 border-b border-slate-800">
+        <i data-lucide="check-square" class="w-8 h-8 text-cyan-400"></i>
+        <div>
+          <h1 class="font-playwrite font-bold text-lg text-cyan-400 leading-none tracking-tight">TaskMaster</h1>
+          <span class="font-playwrite text-xs text-slate-500 font-medium">By Aditiya</span>
+        </div>
       </div>
 
-      <!-- Responsive Table -->
-      <div class="overflow-x-auto rounded-2xl border border-slate-800">
-        <table class="w-full text-left border-collapse min-w-[800px]">
-          <thead>
-            <tr class="bg-slate-950/80 text-cyan-400 text-xs font-bold uppercase tracking-wider border-b border-slate-800">
-              <th class="p-4 w-28 text-center">Waktu</th>
-              <th class="p-4">Kegiatan</th>
-              <th class="p-4 w-32">Tanggal</th>
-              <th class="p-3 text-center w-12">Sen</th>
-              <th class="p-3 text-center w-12">Sel</th>
-              <th class="p-3 text-center w-12">Rab</th>
-              <th class="p-3 text-center w-12">Kam</th>
-              <th class="p-3 text-center w-12">Jum</th>
-              <th class="p-3 text-center w-12">Sab</th>
-              <th class="p-3 text-center w-12">Min</th>
-              <th class="p-3 text-center w-12">Aksi</th>
-            </tr>
-          </thead>
-          <tbody id="todo-body" class="divide-y divide-slate-800/60 text-sm text-slate-300">
-            <!-- Data digenerate otomatis oleh JS -->
-          </tbody>
-        </table>
-      </div>
+      <!-- Menu Navigasi -->
+      <nav class="space-y-2">
+        <button id="navDashboard" onclick="switchTab('dashboard')" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl font-semibold text-sm tracking-wide transition-all text-slate-400 hover:bg-slate-800 hover:text-slate-200">
+          <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+          <span>Dashboard</span>
+        </button>
+
+        <button id="navSchedule" onclick="switchTab('schedule')" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl font-semibold text-sm tracking-wide transition-all bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
+          <i data-lucide="calendar" class="w-5 h-5"></i>
+          <span>Jadwal Mingguan</span>
+        </button>
+      </nav>
     </div>
 
-  </main>
+    <!-- Profil Pengguna Sidebar -->
+    <div class="p-3 bg-slate-950/60 border border-slate-800 rounded-2xl flex items-center gap-3">
+      <div class="w-9 h-9 rounded-full bg-cyan-500/20 border border-cyan-400/30 flex items-center justify-center font-bold text-cyan-400">
+        A
+      </div>
+      <div class="overflow-hidden">
+        <p class="text-sm font-bold text-slate-200 truncate">Aditiya</p>
+        <p class="text-xs font-medium text-slate-500 truncate">Web Developer</p>
+      </div>
+    </div>
+  </aside>
+
+  <!-- CONTENT AREA -->
+  <div class="flex-1 ml-64 p-6 md:p-10 flex flex-col justify-between min-h-screen">
+    <main class="max-w-7xl mx-auto w-full">
+
+      <!-- SECTION 1: DASHBOARD -->
+      <section id="sectionDashboard" class="hidden space-y-6">
+        <header class="bg-slate-900/80 border border-slate-800 p-6 rounded-3xl shadow-xl backdrop-blur-md">
+          <h1 class="text-3xl font-extrabold text-cyan-400 tracking-tight">Dashboard Overview</h1>
+          <p class="text-slate-400 text-sm mt-1 font-medium">Ringkasan aktivitas dan progres kegiatan mingguan kamu.</p>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="bg-slate-900/60 border border-slate-800 p-6 rounded-3xl shadow-lg flex items-center gap-4">
+            <div class="p-4 bg-cyan-500/10 border border-cyan-500/20 rounded-2xl text-cyan-400">
+              <i data-lucide="list-todo" class="w-8 h-8"></i>
+            </div>
+            <div>
+              <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Total Kegiatan</p>
+              <p id="statTotal" class="text-3xl font-extrabold text-slate-100">0</p>
+            </div>
+          </div>
+
+          <div class="bg-slate-900/60 border border-slate-800 p-6 rounded-3xl shadow-lg flex items-center gap-4">
+            <div class="p-4 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl text-emerald-400">
+              <i data-lucide="check-circle-2" class="w-8 h-8"></i>
+            </div>
+            <div>
+              <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Selesai Dikerjakan</p>
+              <p id="statCompleted" class="text-3xl font-extrabold text-slate-100">0</p>
+            </div>
+          </div>
+
+          <div class="bg-slate-900/60 border border-slate-800 p-6 rounded-3xl shadow-lg flex items-center gap-4">
+            <div class="p-4 bg-amber-500/10 border border-amber-500/20 rounded-2xl text-amber-400">
+              <i data-lucide="clock" class="w-8 h-8"></i>
+            </div>
+            <div>
+              <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Progres Mingguan</p>
+              <p id="statProgress" class="text-3xl font-extrabold text-slate-100">0%</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 2: SCHEDULE (TO DO LIST) -->
+      <section id="sectionSchedule" class="space-y-6">
+        <header class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-slate-900/80 border border-slate-800 p-6 rounded-3xl shadow-xl backdrop-blur-md">
+          <div>
+            <h1 class="text-3xl font-extrabold text-cyan-400 tracking-tight flex items-center gap-2">
+              <i data-lucide="calendar-check" class="w-8 h-8 text-cyan-400"></i>
+              Weekly To-Do List
+            </h1>
+            <p class="text-slate-400 text-sm mt-1 font-medium">Selamat datang kembali, <span class="text-slate-200 font-semibold">Aditiya</span> 👋</p>
+          </div>
+          
+          <button id="openModalBtn" class="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold px-5 py-2.5 rounded-2xl shadow-lg hover:shadow-cyan-500/30 transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer">
+            <i data-lucide="plus-circle" class="w-5 h-5"></i>
+            <span>Tambah Kegiatan</span>
+          </button>
+        </header>
+
+        <div class="bg-slate-900/60 border border-slate-800 rounded-3xl shadow-2xl p-4 md:p-6 backdrop-blur-md">
+          <div class="flex items-center justify-between mb-4 px-2">
+            <h2 class="text-lg font-bold text-slate-200 flex items-center gap-2">
+              <i data-lucide="calendar" class="w-5 h-5 text-cyan-400"></i>
+              Jadwal Mingguan
+            </h2>
+            <span class="text-xs font-medium text-slate-400 bg-slate-800/80 px-3 py-1 rounded-full border border-slate-700">Auto-Reset 7 Hari</span>
+          </div>
+
+          <!-- Tabel Tanpa Kolom Tanggal -->
+          <div class="overflow-x-auto rounded-2xl border border-slate-800">
+            <table class="w-full text-left border-collapse min-w-[750px]">
+              <thead>
+                <tr class="bg-slate-950/80 text-cyan-400 text-xs font-bold uppercase tracking-wider border-b border-slate-800">
+                  <th class="p-4 w-32 text-center">Waktu</th>
+                  <th class="p-4">Kegiatan</th>
+                  <th class="p-3 text-center w-12">Sen</th>
+                  <th class="p-3 text-center w-12">Sel</th>
+                  <th class="p-3 text-center w-12">Rab</th>
+                  <th class="p-3 text-center w-12">Kam</th>
+                  <th class="p-3 text-center w-12">Jum</th>
+                  <th class="p-3 text-center w-12">Sab</th>
+                  <th class="p-3 text-center w-12">Min</th>
+                  <th class="p-3 text-center w-12">Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="todo-body" class="divide-y divide-slate-800/60 text-sm text-slate-300">
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="mt-8 text-center text-xs text-slate-500 py-4 font-medium">
+      Copyright &copy; 2026 <span class="text-cyan-400 font-semibold">ADITIYA</span>. All rights reserved.
+    </footer>
+  </div>
 
   <!-- Modal Interactive untuk Tambah Kegiatan -->
   <div id="todoModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
@@ -83,28 +193,18 @@
 
       <form id="addTodoForm" class="space-y-4">
         <div>
-          <label class="block text-xs font-medium text-slate-400 mb-1">Nama Kegiatan</label>
+          <label class="block text-xs font-semibold text-slate-400 mb-1">Nama Kegiatan</label>
           <input type="text" id="inputName" required placeholder="Contoh: Belajar Tailwind CSS" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-slate-100 focus:outline-none focus:border-cyan-500 transition-colors">
         </div>
         
-        <div class="grid grid-cols-2 gap-3">
-          <!-- Input Jam dengan Dropdown Scroll -->
-          <div>
-            <label class="block text-xs font-medium text-slate-400 mb-1">Jam Waktu</label>
-            <div class="flex gap-2">
-              <select id="selectHour" required class="w-2/3 bg-slate-950 border border-slate-800 rounded-xl p-3 text-slate-100 focus:outline-none focus:border-cyan-500 transition-colors cursor-pointer appearance-none">
-                <!-- Diisi via JavaScript -->
-              </select>
-              <select id="selectAmpm" required class="w-1/3 bg-slate-950 border border-slate-800 rounded-xl p-3 text-cyan-400 font-semibold focus:outline-none focus:border-cyan-500 transition-colors cursor-pointer appearance-none text-center">
-                <option value="AM" class="bg-slate-900 text-cyan-400">AM</option>
-                <option value="PM" class="bg-slate-900 text-cyan-400">PM</option>
-              </select>
-            </div>
-          </div>
-
-          <div>
-            <label class="block text-xs font-medium text-slate-400 mb-1">Tanggal</label>
-            <input type="date" id="inputDate" required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-slate-100 focus:outline-none focus:border-cyan-500 transition-colors">
+        <div>
+          <label class="block text-xs font-semibold text-slate-400 mb-1">Jam Waktu</label>
+          <div class="flex gap-2">
+            <select id="selectHour" required class="w-2/3 bg-slate-950 border border-slate-800 rounded-xl p-3 text-slate-100 focus:outline-none focus:border-cyan-500 transition-colors cursor-pointer appearance-none"></select>
+            <select id="selectAmpm" required class="w-1/3 bg-slate-950 border border-slate-800 rounded-xl p-3 text-cyan-400 font-semibold focus:outline-none focus:border-cyan-500 transition-colors cursor-pointer appearance-none text-center">
+              <option value="AM" class="bg-slate-900 text-cyan-400">AM</option>
+              <option value="PM" class="bg-slate-900 text-cyan-400">PM</option>
+            </select>
           </div>
         </div>
 
@@ -120,21 +220,18 @@
     </div>
   </div>
 
-  <!-- Footer -->
-  <footer class="mt-8 text-center text-xs text-slate-500 py-4">
-    Copyright &copy; 2026 <span class="text-cyan-400 font-semibold">ADITIYA</span>. All rights reserved.
-  </footer>
-
-  <!-- Script logic UX & Interaktivitas -->
+  <!-- Script Logic -->
   <script>
     const days = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'];
+    const SEVEN_DAYS_MS = 7 * 24 * 60 * 60 * 1000;
 
-    // Sample Data
-    let activities = [
-      { id: 1, time: '08.00 PM', name: 'Ngoding Portfolio', date: '2026-06-26' },
-      { id: 2, time: '03.00 AM', name: 'Bangun Pagi & Sholat', date: '2026-10-10' },
-      { id: 3, time: '08.00 AM', name: 'Workout Tipis-Tipis', date: '2026-10-10' }
+    let activities = JSON.parse(localStorage.getItem('todo_activities')) || [
+      { id: 1, time: '03.00 AM', name: 'Bangun Pagi & Sholat' },
+      { id: 2, time: '08.00 AM', name: 'Workout Tipis-Tipis' },
+      { id: 3, time: '08.00 PM', name: 'Ngoding Portfolio' }
     ];
+
+    let savedChecks = JSON.parse(localStorage.getItem('todo_checkboxes')) || {};
 
     const tbody = document.getElementById('todo-body');
     const modal = document.getElementById('todoModal');
@@ -144,13 +241,47 @@
     const cancelModalBtn = document.getElementById('cancelModalBtn');
     const addTodoForm = document.getElementById('addTodoForm');
 
-    // Helper 1: Konversi Tanggal "YYYY-MM-DD" ke Timestamp
-    function dateToTimestamp(dateStr) {
-      if (!dateStr) return 0;
-      return new Date(dateStr).getTime();
+    function switchTab(tab) {
+      const secDashboard = document.getElementById('sectionDashboard');
+      const secSchedule = document.getElementById('sectionSchedule');
+      const navDashboard = document.getElementById('navDashboard');
+      const navSchedule = document.getElementById('navSchedule');
+
+      const activeClass = ['bg-cyan-500/10', 'text-cyan-400', 'border', 'border-cyan-500/20'];
+      const inactiveClass = ['text-slate-400', 'hover:bg-slate-800', 'hover:text-slate-200'];
+
+      if (tab === 'dashboard') {
+        secDashboard.classList.remove('hidden');
+        secSchedule.classList.add('hidden');
+
+        navDashboard.classList.add(...activeClass);
+        navDashboard.classList.remove(...inactiveClass);
+        navSchedule.classList.remove(...activeClass);
+        navSchedule.classList.add(...inactiveClass);
+
+        updateDashboardStats();
+      } else {
+        secSchedule.classList.remove('hidden');
+        secDashboard.classList.add('hidden');
+
+        navSchedule.classList.add(...activeClass);
+        navSchedule.classList.remove(...inactiveClass);
+        navDashboard.classList.remove(...activeClass);
+        navDashboard.classList.add(...inactiveClass);
+      }
     }
 
-    // Helper 2: Konversi Waktu ("08.30 PM") ke Total Menit (0 - 1439)
+    function updateDashboardStats() {
+      const totalTasks = activities.length;
+      const totalChecks = Object.keys(savedChecks).length;
+      const totalPossible = totalTasks * 7;
+      const progress = totalPossible > 0 ? Math.round((totalChecks / totalPossible) * 100) : 0;
+
+      document.getElementById('statTotal').innerText = totalTasks;
+      document.getElementById('statCompleted').innerText = totalChecks;
+      document.getElementById('statProgress').innerText = `${progress}%`;
+    }
+
     function timeToMinutes(timeStr) {
       if (!timeStr) return 0;
       const parts = timeStr.trim().split(' ');
@@ -167,11 +298,9 @@
       return hours * 60 + minutes;
     }
 
-    // Populate Pilihan Dropdown Jam (01.00 - 12.30)
     function populateHourSelect() {
       const selectHour = document.getElementById('selectHour');
       selectHour.innerHTML = '';
-      
       for (let h = 1; h <= 12; h++) {
         const hourStr = h < 10 ? `0${h}` : `${h}`;
         ['00', '30'].forEach(min => {
@@ -185,44 +314,58 @@
       }
     }
 
-    // Render Tabel dengan Pengurutan (Tanggal Lama ke Baru, Lalu Jam Pagi ke Malam)
+    function cleanupOldCheckboxes() {
+      const now = Date.now();
+      let hasChanges = false;
+      Object.keys(savedChecks).forEach(key => {
+        if (now - savedChecks[key].timestamp > SEVEN_DAYS_MS) {
+          delete savedChecks[key];
+          hasChanges = true;
+        }
+      });
+      if (hasChanges) {
+        localStorage.setItem('todo_checkboxes', JSON.stringify(savedChecks));
+      }
+    }
+
     function renderTable() {
+      cleanupOldCheckboxes();
       tbody.innerHTML = '';
 
       if (activities.length === 0) {
-        tbody.innerHTML = `
-          <tr>
-            <td colspan="11" class="text-center py-8 text-slate-500">
-              Belum ada kegiatan. Klik "Tambah Kegiatan" untuk memulai!
-            </td>
-          </tr>`;
+        tbody.innerHTML = `<tr><td colspan="10" class="text-center py-8 text-slate-500">Belum ada kegiatan. Klik "Tambah Kegiatan" untuk memulai!</td></tr>`;
         return;
       }
 
-      // LOGIKA URUTAN:
-      // 1. Tanggal lama di atas, tanggal terbaru otomatis di posisi paling bawah
-      // 2. Jika tanggal sama, jam pagi di atas dan jam malam di bawah
-      activities.sort((a, b) => {
-        const dateDiff = dateToTimestamp(a.date) - dateToTimestamp(b.date);
-        if (dateDiff !== 0) return dateDiff;
-        return timeToMinutes(a.time) - timeToMinutes(b.time);
-      });
+      activities.sort((a, b) => timeToMinutes(a.time) - timeToMinutes(b.time));
 
       activities.forEach((act, index) => {
         const tr = document.createElement('tr');
         tr.className = 'hover:bg-slate-800/40 transition-colors group';
 
-        tr.innerHTML = `
-          <td class="p-3 text-center font-mono text-xs text-cyan-400/90 bg-slate-950/30">${act.time}</td>
-          <td class="p-3 font-medium text-slate-200 task-name-cell">${act.name}</td>
-          <td class="p-3 text-xs text-slate-400">${act.date}</td>
-          ${days.map(() => `
+        let rowCheckCount = 0;
+        const dayCells = days.map((day, dayIndex) => {
+          const checkKey = `check_${act.id}_${dayIndex}`;
+          const isChecked = savedChecks[checkKey] ? true : false;
+          if (isChecked) rowCheckCount++;
+
+          return `
             <td class="p-3 text-center">
               <input type="checkbox" 
+                data-key="${checkKey}"
+                ${isChecked ? 'checked' : ''}
                 class="w-4 h-4 rounded border-slate-700 bg-slate-950 text-cyan-500 focus:ring-cyan-400/20 focus:ring-offset-0 cursor-pointer accent-cyan-500"
-                onchange="toggleTask(this)">
+                onchange="handleCheckboxChange(this)">
             </td>
-          `).join('')}
+          `;
+        }).join('');
+
+        const isTaskDone = rowCheckCount > 0;
+
+        tr.innerHTML = `
+          <td class="p-3 text-center font-mono text-xs text-cyan-400/90 bg-slate-950/30">${act.time}</td>
+          <td class="p-3 font-medium ${isTaskDone ? 'line-through text-slate-500' : 'text-slate-200'} task-name-cell">${act.name}</td>
+          ${dayCells}
           <td class="p-3 text-center">
             <button onclick="deleteActivity(${index})" class="text-slate-500 hover:text-red-400 transition-colors p-1" title="Hapus">
               <i data-lucide="trash-2" class="w-4 h-4"></i>
@@ -236,12 +379,18 @@
       lucide.createIcons();
     }
 
-    // Coret Teks Otomatis Jika Checklist Dicentang
-    function toggleTask(checkbox) {
+    function handleCheckboxChange(checkbox) {
+      const key = checkbox.getAttribute('data-key');
+      if (checkbox.checked) {
+        savedChecks[key] = { checked: true, timestamp: Date.now() };
+      } else {
+        delete savedChecks[key];
+      }
+      localStorage.setItem('todo_checkboxes', JSON.stringify(savedChecks));
+
       const row = checkbox.closest('tr');
       const taskCell = row.querySelector('.task-name-cell');
       const allCheckboxes = row.querySelectorAll('input[type="checkbox"]');
-      
       const isAnyChecked = Array.from(allCheckboxes).some(cb => cb.checked);
 
       if (isAnyChecked) {
@@ -249,9 +398,10 @@
       } else {
         taskCell.classList.remove('line-through', 'text-slate-500');
       }
+
+      updateDashboardStats();
     }
 
-    // Kontrol Modal
     function openModal() {
       modal.classList.remove('hidden');
       setTimeout(() => {
@@ -269,13 +419,13 @@
       }, 300);
     }
 
-    // Hapus Kegiatan
     function deleteActivity(index) {
       activities.splice(index, 1);
+      localStorage.setItem('todo_activities', JSON.stringify(activities));
       renderTable();
+      updateDashboardStats();
     }
 
-    // Event Listeners
     openModalBtn.addEventListener('click', openModal);
     closeModalBtn.addEventListener('click', closeModal);
     cancelModalBtn.addEventListener('click', closeModal);
@@ -285,19 +435,19 @@
       const name = document.getElementById('inputName').value;
       const hour = document.getElementById('selectHour').value;
       const ampm = document.getElementById('selectAmpm').value;
-      const date = document.getElementById('inputDate').value;
 
       const formattedTime = `${hour} ${ampm}`;
+      activities.push({ id: Date.now(), name, time: formattedTime });
+      localStorage.setItem('todo_activities', JSON.stringify(activities));
 
-      activities.push({ id: Date.now(), name, time: formattedTime, date });
       renderTable();
+      updateDashboardStats();
       closeModal();
     });
 
-    // Inisialisasi Aplikasi
     populateHourSelect();
-    document.getElementById('inputDate').value = new Date().toISOString().slice(0, 10);
     renderTable();
+    updateDashboardStats();
   </script>
 </body>
 </html>
