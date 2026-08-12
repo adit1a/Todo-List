@@ -8,7 +8,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const LS_ACTIVITIES = 'todo_activities';
   const LS_CHECKS = 'todo_checkboxes';
-  const LS_VIEW = 'todo_view';
   const LS_COMPLETION_LOG = 'todo_completion_log';
 
   const CATEGORIES = {
@@ -30,11 +29,10 @@ document.addEventListener('DOMContentLoaded', () => {
   let completionLog = JSON.parse(localStorage.getItem(LS_COMPLETION_LOG)) || {};
 
   let currentFilter = 'Semua';
-  let currentView = localStorage.getItem(LS_VIEW) || 'table';
   let progressChart = null;
 
   const tbody = document.getElementById('todo-body');
-  const cardsContainer = document.getElementById('todo-cards');
+  const mobileCardsContainer = document.getElementById('todo-mobile-cards');
   const categoryFiltersEl = document.getElementById('categoryFilters');
   const modal = document.getElementById('todoModal');
   const modalCard = document.getElementById('modalCard');
@@ -42,8 +40,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const closeModalBtn = document.getElementById('closeModalBtn');
   const cancelModalBtn = document.getElementById('cancelModalBtn');
   const addTodoForm = document.getElementById('addTodoForm');
-  const viewTableBtn = document.getElementById('viewTableBtn');
-  const viewCardBtn = document.getElementById('viewCardBtn');
   const yearSelect = document.getElementById('yearSelect');
   const enableNotifBtn = document.getElementById('enableNotifBtn');
   const notifBtnText = document.getElementById('notifBtnText');
@@ -64,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return jsDay === 0 ? 6 : jsDay - 1;
   }
 
-  // ---------------- PWA SERVICE WORKER REGISTRATION ----------------
+  // ---------------- PWA SERVICE WORKER ----------------
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
       navigator.serviceWorker.register('./sw.js').then(() => {
@@ -123,14 +119,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Pengecekan Jam Jadwal Setiap 60 Detik untuk Kirim Notifikasi
   function checkScheduledReminders() {
     if (!('Notification' in window) || Notification.permission !== 'granted') return;
 
     const now = new Date();
     const todayIndex = getTodayIndex();
     
-    // Format Waktu Sekarang (misal: "08.00 AM")
     let hours = now.getHours();
     const minutes = now.getMinutes();
     const ampm = hours >= 12 ? 'PM' : 'AM';
@@ -141,12 +135,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const currentTimeStr = `${formattedHours}.${formattedMinutes} ${ampm}`;
 
     activities.forEach(act => {
-      // Jika jam cocok dan tugas belum dicentang hari ini
       const checkKey = `check_${act.id}_${todayIndex}`;
       const isChecked = !!savedChecks[checkKey];
 
       if (act.time === currentTimeStr && !isChecked) {
-        // Kirim Notifikasi Pengingat
         new Notification(`Jadwal: ${act.name}`, {
           body: `Waktunya melakukan kegiatan "${act.name}" (${act.time})! Jangan lupa dicentang.`,
           icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%2306b6d4" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>'
@@ -155,7 +147,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Jalankan pengecekan setiap 60 detik
   setInterval(checkScheduledReminders, 60000);
 
   // ---------------- TAB SWITCH ----------------
@@ -422,7 +413,7 @@ document.addEventListener('DOMContentLoaded', () => {
       btn.addEventListener('click', () => {
         currentFilter = btn.getAttribute('data-filter');
         renderFilterButtons();
-        renderSchedule();
+        renderTable();
       });
     });
   }
@@ -430,45 +421,6 @@ document.addEventListener('DOMContentLoaded', () => {
   function getFilteredActivities() {
     if (currentFilter === 'Semua') return activities;
     return activities.filter(a => (a.category || 'Lainnya') === currentFilter);
-  }
-
-  function setView(view) {
-    currentView = view;
-    localStorage.setItem(LS_VIEW, view);
-
-    const activeCls = ['bg-cyan-500', 'text-slate-950'];
-    const inactiveCls = ['text-slate-400', 'hover:text-slate-200'];
-
-    if (viewTableBtn && viewCardBtn) {
-      if (view === 'table') {
-        viewTableBtn.classList.add(...activeCls);
-        viewTableBtn.classList.remove(...inactiveCls);
-        viewCardBtn.classList.remove(...activeCls);
-        viewCardBtn.classList.add(...inactiveCls);
-      } else {
-        viewCardBtn.classList.add(...activeCls);
-        viewCardBtn.classList.remove(...inactiveCls);
-        viewTableBtn.classList.remove(...activeCls);
-        viewTableBtn.classList.add(...inactiveCls);
-      }
-    }
-
-    renderSchedule();
-  }
-
-  function renderSchedule() {
-    cleanupOldCheckboxes();
-    activities.sort((a, b) => timeToMinutes(a.time) - timeToMinutes(b.time));
-
-    if (currentView === 'table') {
-      tbody.closest('table').classList.remove('hidden');
-      cardsContainer.classList.add('hidden');
-      renderTable();
-    } else {
-      tbody.closest('table').classList.add('hidden');
-      cardsContainer.classList.remove('hidden');
-      renderCards();
-    }
   }
 
   function buildDayCheckboxesHtml(act) {
@@ -485,25 +437,38 @@ document.addEventListener('DOMContentLoaded', () => {
     return { cellsHtml, rowCheckCount };
   }
 
+  // ---------------- RENDER TABEL DESKTOP & KARTU HP ----------------
   function renderTable() {
+    cleanupOldCheckboxes();
+    activities.sort((a, b) => timeToMinutes(a.time) - timeToMinutes(b.time));
+    
     const filtered = getFilteredActivities();
     tbody.innerHTML = '';
+    if (mobileCardsContainer) mobileCardsContainer.innerHTML = '';
 
     if (filtered.length === 0) {
       const message = activities.length === 0
         ? 'Belum ada kegiatan. Klik "Tambah Kegiatan" untuk memulai!'
         : 'Tidak ada kegiatan di kategori ini.';
+      
       tbody.innerHTML = `<tr><td colspan="10" class="text-center py-8 text-slate-500">${message}</td></tr>`;
+      if (mobileCardsContainer) {
+        mobileCardsContainer.innerHTML = `<div class="text-center py-8 text-slate-500 text-sm">${message}</div>`;
+      }
       lucide.createIcons();
       return;
     }
 
     filtered.forEach((act) => {
       const realIndex = activities.findIndex(a => a.id === act.id);
+      const { cellsHtml, rowCheckCount } = buildDayCheckboxesHtml(act);
+      const isTaskDone = rowCheckCount > 0;
+      const catKey = act.category || 'Lainnya';
+
+      // 1. Render Baris Tabel (Desktop)
       const tr = document.createElement('tr');
       tr.className = 'hover:bg-slate-800/40 transition-colors group';
 
-      const { cellsHtml, rowCheckCount } = buildDayCheckboxesHtml(act);
       const dayCellsStr = cellsHtml.map(({ checkKey, isChecked, day, isFutureDay, isToday }) => `
         <td class="p-3 text-center ${isToday ? 'bg-cyan-500/10' : ''}">
           <input type="checkbox"
@@ -516,9 +481,6 @@ document.addEventListener('DOMContentLoaded', () => {
             onchange="handleCheckboxChange(this)">
         </td>
       `).join('');
-
-      const isTaskDone = rowCheckCount > 0;
-      const catKey = act.category || 'Lainnya';
 
       tr.innerHTML = `
         <td class="p-3 text-center font-mono text-xs text-cyan-400/90 bg-slate-950/30">${act.time}</td>
@@ -536,67 +498,49 @@ document.addEventListener('DOMContentLoaded', () => {
         </td>
       `;
       tbody.appendChild(tr);
-    });
 
-    lucide.createIcons();
-  }
+      // 2. Render Kartu Fleksibel (HP)
+      if (mobileCardsContainer) {
+        const cardMobile = document.createElement('div');
+        cardMobile.className = 'bg-slate-900/80 border border-slate-800 rounded-2xl p-4 space-y-3';
 
-  function renderCards() {
-    const filtered = getFilteredActivities();
-    cardsContainer.innerHTML = '';
+        const dayButtonsMobile = cellsHtml.map(({ checkKey, isChecked, day, isFutureDay, isToday }, idx) => `
+          <label class="flex flex-col items-center justify-center p-2 rounded-xl border transition-all ${isToday ? 'border-cyan-500/50 bg-cyan-500/10' : 'border-slate-800 bg-slate-950/50'} ${isFutureDay ? 'opacity-30 cursor-not-allowed' : 'cursor-pointer'}">
+            <span class="text-[10px] font-bold ${isToday ? 'text-cyan-400' : 'text-slate-400'}">${daysShort[idx]}</span>
+            <input type="checkbox"
+              data-key="${checkKey}"
+              ${isChecked ? 'checked' : ''}
+              ${isFutureDay ? 'disabled' : ''}
+              class="w-4 h-4 mt-1 rounded border-slate-700 bg-slate-950 text-cyan-500 focus:ring-cyan-400/20 accent-cyan-500 ${isFutureDay ? 'opacity-30 cursor-not-allowed' : 'cursor-pointer'}"
+              onchange="handleCheckboxChange(this)">
+          </label>
+        `).join('');
 
-    if (filtered.length === 0) {
-      const message = activities.length === 0
-        ? 'Belum ada kegiatan. Klik "Tambah Kegiatan" untuk memulai!'
-        : 'Tidak ada kegiatan di kategori ini.';
-      cardsContainer.innerHTML = `<p class="col-span-full text-center py-8 text-slate-500">${message}</p>`;
-      lucide.createIcons();
-      return;
-    }
-
-    filtered.forEach((act) => {
-      const realIndex = activities.findIndex(a => a.id === act.id);
-      const { cellsHtml, rowCheckCount } = buildDayCheckboxesHtml(act);
-      const isTaskDone = rowCheckCount > 0;
-      const catKey = act.category || 'Lainnya';
-
-      const dayGridStr = cellsHtml.map(({ checkKey, isChecked, isFutureDay, isToday }, i) => `
-        <div class="flex flex-col items-center gap-1 ${isToday ? 'bg-cyan-500/10 p-1 rounded-lg' : ''}">
-          <span class="text-[10px] ${isToday ? 'text-cyan-400 font-bold' : 'text-slate-500 font-semibold'}">${daysShort[i]}</span>
-          <input type="checkbox"
-            data-key="${checkKey}"
-            ${isChecked ? 'checked' : ''}
-            ${isFutureDay ? 'disabled' : ''}
-            aria-label="${act.name} - ${days[i]}"
-            title="${isFutureDay ? 'Belum memasuki hari ' + days[i] : days[i]}"
-            class="w-4 h-4 rounded border-slate-700 bg-slate-950 text-cyan-500 focus:ring-cyan-400/20 focus:ring-offset-0 accent-cyan-500 ${isFutureDay ? 'opacity-30 cursor-not-allowed' : 'cursor-pointer'}"
-            onchange="handleCheckboxChange(this)">
-        </div>
-      `).join('');
-
-      const card = document.createElement('div');
-      card.className = 'bg-slate-900/60 border border-slate-800 rounded-2xl p-4 space-y-3 hover:border-slate-700 transition-colors';
-      card.innerHTML = `
-        <div class="flex items-start justify-between gap-2">
-          <div>
-            <span class="font-mono text-xs text-cyan-400/90">${act.time}</span>
-            <p class="font-medium mt-1 ${isTaskDone ? 'line-through text-slate-500' : 'text-slate-200'} task-name-cell">${act.name}</p>
+        cardMobile.innerHTML = `
+          <div class="flex items-start justify-between gap-2">
+            <div>
+              <span class="font-mono text-xs text-cyan-400 bg-slate-950 px-2 py-1 rounded-md border border-slate-800">${act.time}</span>
+              <h3 class="font-bold text-slate-100 text-sm mt-2 ${isTaskDone ? 'line-through text-slate-500' : ''} task-name-cell">${act.name}</h3>
+            </div>
+            <button onclick="deleteActivity(${realIndex})" class="text-slate-500 hover:text-red-400 p-1 cursor-pointer" title="Hapus">
+              <i data-lucide="trash-2" class="w-4 h-4"></i>
+            </button>
           </div>
-          <button onclick="deleteActivity(${realIndex})" class="text-slate-500 hover:text-red-400 transition-colors p-1 shrink-0 cursor-pointer" title="Hapus" aria-label="Hapus ${act.name}">
-            <i data-lucide="trash-2" class="w-4 h-4"></i>
-          </button>
-        </div>
-        <span class="inline-block w-fit px-2 py-0.5 rounded-full text-[10px] font-semibold ${categoryBadgeClasses(catKey)}">${(CATEGORIES[catKey] || CATEGORIES.Lainnya).label}</span>
-        <div class="grid grid-cols-7 gap-1 pt-2 border-t border-slate-800">
-          ${dayGridStr}
-        </div>
-      `;
-      cardsContainer.appendChild(card);
+          <div class="flex items-center justify-between">
+            <span class="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-semibold ${categoryBadgeClasses(catKey)}">${(CATEGORIES[catKey] || CATEGORIES.Lainnya).label}</span>
+          </div>
+          <div class="grid grid-cols-7 gap-1 pt-2 border-t border-slate-800">
+            ${dayButtonsMobile}
+          </div>
+        `;
+        mobileCardsContainer.appendChild(cardMobile);
+      }
     });
 
     lucide.createIcons();
   }
 
+  // ---------------- CHECKBOX HANDLER ----------------
   function handleCheckboxChange(checkbox) {
     const key = checkbox.getAttribute('data-key');
     if (checkbox.checked) {
@@ -607,7 +551,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     persistChecks();
 
-    const container = checkbox.closest('tr') || checkbox.closest('.rounded-2xl');
+    const container = checkbox.closest('tr') || checkbox.closest('.bg-slate-900\\/80');
     if (container) {
       const taskCell = container.querySelector('.task-name-cell');
       const allCheckboxes = container.querySelectorAll('input[type="checkbox"]');
@@ -623,6 +567,7 @@ document.addEventListener('DOMContentLoaded', () => {
     updateChart();
   }
 
+  // ---------------- MODAL ----------------
   function openModal() {
     modal.classList.remove('hidden');
     setTimeout(() => {
@@ -648,11 +593,12 @@ document.addEventListener('DOMContentLoaded', () => {
     activities.splice(index, 1);
     persistActivities();
     cleanupChecksForActivity(activity.id);
-    renderSchedule();
+    renderTable();
     updateDashboardStats();
     updateChart();
   }
 
+  // ---------------- MOBILE SIDEBAR ----------------
   function closeMobileSidebar() {
     const sidebar = document.getElementById('sidebar');
     const overlay = document.getElementById('sidebarOverlay');
@@ -687,8 +633,6 @@ document.addEventListener('DOMContentLoaded', () => {
   if (mobileMenuBtn) mobileMenuBtn.addEventListener('click', toggleMobileSidebar);
   if (sidebarOverlay) sidebarOverlay.addEventListener('click', closeMobileSidebar);
 
-  if (viewTableBtn) viewTableBtn.addEventListener('click', () => setView('table'));
-  if (viewCardBtn) viewCardBtn.addEventListener('click', () => setView('card'));
   if (yearSelect) yearSelect.addEventListener('change', updateChart);
 
   addTodoForm.addEventListener('submit', (e) => {
@@ -709,7 +653,7 @@ document.addEventListener('DOMContentLoaded', () => {
     activities.push({ id: Date.now(), name, time: formattedTime, category });
     persistActivities();
 
-    renderSchedule();
+    renderTable();
     updateDashboardStats();
     updateChart();
     closeModal();
@@ -720,7 +664,7 @@ document.addEventListener('DOMContentLoaded', () => {
   populateCategorySelect();
   populateYearSelect();
   renderFilterButtons();
-  setView(currentView);
+  renderTable();
   updateDashboardStats();
   updateChart();
   initNotifications();
