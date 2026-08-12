@@ -1,0 +1,17 @@
+{
+  "name": "TaskMaster - Weekly To-Do List",
+  "short_name": "TaskMaster",
+  "description": "Aplikasi To-Do List & Tracker Kegiatan Mingguan oleh Aditiya",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#020617",
+  "theme_color": "#06b6d4",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='100' fill='%23020617'/><path d='M380 170L210 340L130 260' stroke='%2306b6d4' stroke-width='40' stroke-linecap='round' stroke-linejoin='round' fill='none'/></svg>",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
